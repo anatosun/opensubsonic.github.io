@@ -1,0 +1,109 @@
+{
+    "get": {
+        "summary": "Returns the loudness envelope of a song.",
+        "description": "OpenSubsonic extension name `songWaveform` (As returned by `getOpenSubsonicExtensions`). Returns the loudness envelope of a song: one value per equal-duration slice, on a linear 0-255 scale relative to the loudest slice of the song.",
+        "operationId": "getWaveform",
+        "tags": [
+            "Media Retrieval",
+            "Extension"
+        ],
+        "parameters": [
+            {
+                "name": "id",
+                "in": "query",
+                "description": "The ID of the song.",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "samples",
+                "in": "query",
+                "description": "The number of loudness values to return. Servers may cap it to their maximum resolution, in which case they return fewer values than requested.",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "default": 500,
+                    "minimum": 1
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Successful or failed response",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "./getWaveform/GetWaveformResponse.json"
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "Extension not supported."
+            }
+        },
+        "externalDocs": {
+            "description": "getWaveform",
+            "url": "https://opensubsonic.github.io/docs/endpoints/getwaveform/"
+        }
+    },
+    "post": {
+        "summary": "Returns the loudness envelope of a song.",
+        "description": "OpenSubsonic extension name `songWaveform` (As returned by `getOpenSubsonicExtensions`). Returns the loudness envelope of a song: one value per equal-duration slice, on a linear 0-255 scale relative to the loudest slice of the song.\n\nRequires OpenSubsonic extension name `formPost` (As returned by `getOpenSubsonicExtensions`)",
+        "operationId": "postGetWaveform",
+        "tags": [
+            "Media Retrieval",
+            "Extension"
+        ],
+        "requestBody": {
+            "required": true,
+            "content": {
+                "application/x-www-form-urlencoded": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "description": "The ID of the song."
+                            },
+                            "samples": {
+                                "type": "integer",
+                                "default": 500,
+                                "minimum": 1,
+                                "description": "The number of loudness values to return. Servers may cap it to their maximum resolution, in which case they return fewer values than requested."
+                            }
+                        },
+                        "required": [
+                            "id"
+                        ]
+                    }
+                }
+            }
+        },
+        "parameters": [],
+        "responses": {
+            "200": {
+                "description": "Successful or failed response",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "./getWaveform/GetWaveformResponse.json"
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "Extension not supported."
+            },
+            "405": {
+                "$ref": "../responses/HTTPFormPostNotSupported.json"
+            }
+        },
+        "externalDocs": {
+            "description": "getWaveform",
+            "url": "https://opensubsonic.github.io/docs/endpoints/getwaveform/"
+        }
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "type": "object",
+    "description": "The loudness envelope of a song.",
+    "externalDocs": {
+        "description": "waveform",
+        "url": "https://opensubsonic.github.io/docs/responses/waveform/"
+    },
+    "properties": {
+        "id": {
+            "type": "string",
+            "description": "The ID of the song."
+        },
+        "duration": {
+            "type": "number",
+            "description": "The duration of the song in seconds."
+        },
+        "samples": {
+            "type": "integer",
+            "description": "The number of values in `peaks`. This can be lower than the requested number of samples."
+        },
+        "peaks": {
+            "type": "array",
+            "description": "One loudness value per equal-duration slice of the song, in playback order, on a linear 0-255 scale where 255 is the loudest slice of the song.",
+            "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255
+            }
+        }
+    },
+    "required": [
+        "id",
+        "duration",
+        "samples",
+        "peaks"
+    ]
+}
