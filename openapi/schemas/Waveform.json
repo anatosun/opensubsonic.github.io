@@ -14,24 +14,29 @@
             "type": "number",
             "description": "The duration of the song in seconds."
         },
+        "interval": {
+            "type": "number",
+            "description": "The length of audio, in milliseconds, that each value of `levels` covers: 100 for the base resolution, or `100 × N / samples` after reduction, where N is the number of base values. Value i starts at about `i × interval` ms."
+        },
         "samples": {
             "type": "integer",
-            "description": "The number of values in `peaks`. This can be lower than the requested number of samples."
+            "description": "The number of values in `levels`. This is lower than the requested number of samples only when the request asks for more values than the base resolution holds."
         },
-        "peaks": {
+        "levels": {
             "type": "array",
-            "description": "One loudness value per equal-duration slice of the song, in playback order, on a linear 0-255 scale where 255 is the loudest slice of the song.",
+            "description": "One RMS level per slice of the song, in playback order, in dBFS rounded to 2 decimal places, from -120 (silence) to 0 (full scale). After reduction, each value is the highest base value of its slice.",
             "items": {
-                "type": "integer",
-                "minimum": 0,
-                "maximum": 255
+                "type": "number",
+                "minimum": -120,
+                "maximum": 0
             }
         }
     },
     "required": [
         "id",
         "duration",
+        "interval",
         "samples",
-        "peaks"
+        "levels"
     ]
 }

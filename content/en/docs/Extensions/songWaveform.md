@@ -4,7 +4,7 @@ linkTitle: "Song waveform"
 OpenSubsonic:
   - Extension
 description: >
-  Retrieve a loudness envelope of a song, for example to draw a waveform seek bar.
+  Retrieve the loudness envelope of a song, for example to draw a waveform seek bar or plan crossfades.
 ---
 
 **OpenSubsonic version**: [1](../../opensubsonic-versions)
@@ -17,4 +17,4 @@ This extension requires the following endpoints:
 
 - [`getWaveform`](../../endpoints/getwaveform): Fetch the loudness envelope of a song by id
 
-The endpoint returns a [`waveform`](../../responses/waveform) element, which holds one loudness value per equal-length slice of the song.
+The endpoint returns a [`waveform`](../../responses/waveform) element, which holds the RMS level of the song in dBFS, at a fixed base resolution of one value per 100 ms, optionally reduced to a requested number of values.

@@ -1,7 +1,7 @@
 {
     "get": {
         "summary": "Returns the loudness envelope of a song.",
-        "description": "OpenSubsonic extension name `songWaveform` (As returned by `getOpenSubsonicExtensions`). Returns the loudness envelope of a song: one value per equal-duration slice, on a linear 0-255 scale relative to the loudest slice of the song.",
+        "description": "OpenSubsonic extension name `songWaveform` (As returned by `getOpenSubsonicExtensions`). Returns the loudness envelope of a song: the RMS level in dBFS (-120 to 0, rounded to 2 decimal places), at a fixed base resolution of one value per 100 ms, optionally reduced to `samples` values by keeping the highest value of each group.",
         "operationId": "getWaveform",
         "tags": [
             "Media Retrieval",
@@ -20,11 +20,10 @@
             {
                 "name": "samples",
                 "in": "query",
-                "description": "The number of loudness values to return. Servers may cap it to their maximum resolution, in which case they return fewer values than requested.",
+                "description": "The number of values to return. If omitted, or greater than or equal to the number of base values (`ceil(duration × 10)`), the server returns all base values. Otherwise the server returns exactly this many values, each the highest of a group of consecutive base values.",
                 "required": false,
                 "schema": {
                     "type": "integer",
-                    "default": 500,
                     "minimum": 1
                 }
             }
@@ -51,7 +50,7 @@
     },
     "post": {
         "summary": "Returns the loudness envelope of a song.",
-        "description": "OpenSubsonic extension name `songWaveform` (As returned by `getOpenSubsonicExtensions`). Returns the loudness envelope of a song: one value per equal-duration slice, on a linear 0-255 scale relative to the loudest slice of the song.\n\nRequires OpenSubsonic extension name `formPost` (As returned by `getOpenSubsonicExtensions`)",
+        "description": "OpenSubsonic extension name `songWaveform` (As returned by `getOpenSubsonicExtensions`). Returns the loudness envelope of a song: the RMS level in dBFS (-120 to 0, rounded to 2 decimal places), at a fixed base resolution of one value per 100 ms, optionally reduced to `samples` values by keeping the highest value of each group.\n\nRequires OpenSubsonic extension name `formPost` (As returned by `getOpenSubsonicExtensions`)",
         "operationId": "postGetWaveform",
         "tags": [
             "Media Retrieval",
@@ -70,9 +69,8 @@
                             },
                             "samples": {
                                 "type": "integer",
-                                "default": 500,
                                 "minimum": 1,
-                                "description": "The number of loudness values to return. Servers may cap it to their maximum resolution, in which case they return fewer values than requested."
+                                "description": "The number of values to return. If omitted, or greater than or equal to the number of base values (`ceil(duration × 10)`), the server returns all base values. Otherwise the server returns exactly this many values, each the highest of a group of consecutive base values."
                             }
                         },
                         "required": [
